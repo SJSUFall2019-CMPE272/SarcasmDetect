@@ -30,7 +30,8 @@ Tech stack:
 * Data visualization (QlikView/Tableau)
 * To be determined
 
-## Project Idea 3
+## Project Idea 3 - APPROVED see below
+if you can bring NER to pin point people, product or processes for sarcasm detection then it will be useful. Provide actionable insights based on NER so for ex. If you discover 50% sarcasm in the headlines / tweets about new samsung fold phone then samsung can learn a lot with further insight you provide on the article using NLP
 
 ### Title: Is this sarcasm?
 
