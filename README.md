@@ -1,39 +1,4 @@
-
-## Project Idea 1
-
-### Title: Do you have heart stroke risk?
-
-Description: With real-time data from smart monitoring devices, a system would predict and send out real-time notifications containing causes and suggestions. 
-
-Goal: This will help millions of people who are interested in real-time feedback on their lifestyle choices. 
-
-Tech stack:
-* Kaggle dataset (csv)
-* Python (ML frameworks like sklearn)
-* Data visualization (QlikView/Tableau)
-* Microservices using SpringBoot
-* To be determined
-
-
-## Project Idea 2
-
-### Title: Run your home better
-
-Description: Based on data from various IoT devices and weather patterns, we will send the homeowners notifications on effective home energy conservation.
-
-Goal: This will help every homeowner save money and help reduce carbon footprint.
-
-Tech stack: 
-
-* Kaggle dataset (csv)
-* Python (ML frameworks like sklearn) 
-* Data visualization (QlikView/Tableau)
-* To be determined
-
-## Project Idea 3 - APPROVED see below
-if you can bring NER to pin point people, product or processes for sarcasm detection then it will be useful. Provide actionable insights based on NER so for ex. If you discover 50% sarcasm in the headlines / tweets about new samsung fold phone then samsung can learn a lot with further insight you provide on the article using NLP
-
-### Title: Is this sarcasm?
+### Title: SarcasmDetect
 
 Description: Based on sarcastic (The Onion) and non-sarcastic headlines (HuffPost), the system would help in sarcastic headline awareness and detection. We are diving into sarcastic commentary to see if we can predict sarcasm in a headline.
 
@@ -45,3 +10,4 @@ Tech stack:
 * Data visualization (QlikView/Tableau)
 * To be determined
 
+Notes :- If you can bring NER to pin point people, product or processes for sarcasm detection then it will be useful. Provide actionable insights based on NER so for ex. If you discover 50% sarcasm in the headlines / tweets about new samsung fold phone then samsung can learn a lot with further insight you provide on the article using NLP
