@@ -6,6 +6,8 @@ A business needs to drive product marketing, sales, and operations according to 
 
 But there is a missing link. Sarcasm Detection for business use case is that link. We intend to provide a way for businesses to use our tool to help them understand if the media sentiment they see from other tools is actually the sentiment the users/media is expressing or if its sarcasm. We intend to use a Kaggle dataset of news headlines (https://www.kaggle.com/rmisra/news-headlines-dataset-for-sarcasm-detection) and also try to use small sized posts from media platforms and apply similar logic to understand posts behind a 'trending' topic on a social media platform. 
 
+> Our main goal is to get a working prototype with the Kaggle dataset. The Kaggle dataset's point, according to the dataset description, was to circumvent the noise in Twitter data. We will move to social media data once we can have satisfying outcome from Kaggle.
+
 # Architecture Diagram 
 
 
