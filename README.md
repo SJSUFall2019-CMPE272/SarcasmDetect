@@ -9,6 +9,7 @@ But there is a missing link. Sarcasm Detection for business use case is that lin
 > Our main goal is to get a working prototype with the Kaggle dataset. The Kaggle dataset's point, according to the dataset description, was to circumvent the noise in Twitter data. We will move to social media data once we can have satisfying outcome from Kaggle.
 
 # Architecture Diagram 
+![](SarcasmDetection.png)
 
 
 # Tech stack
