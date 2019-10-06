@@ -9,7 +9,7 @@ But there is a missing link. Sarcasm Detection for business use case is that lin
 > Our main goal is to get a working prototype with the Kaggle dataset. The Kaggle dataset's point, according to the dataset description, was to circumvent the noise in Twitter data. We will move to social media data once we can have satisfying outcome from Kaggle. The search can be based on hashtags or profile name. Sarcastic comments related to the input will get displayed along with key KPI’s on the dashboard. 
 
 # Architecture Diagram 
-![](SarcasmDetection.png)
+![](https://github.com/SJSUFall2019-CMPE272/SarcasmDetect/blob/master/SarcasmDetection.png)
 
 
 # Tech stack
