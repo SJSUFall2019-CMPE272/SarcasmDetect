@@ -12,10 +12,11 @@ But there is a missing link. Sarcasm Detection for business use case is that lin
 
 
 # Tech stack
-* Kaggle dataset (json)
-* Python (ML frameworks like sklearn) 
-* Data visualization (QlikView/Tableau)
-* NER (Name Entity Recognition)
+* Datasets: Kaggle dataset (json), Social media APIs, Cornell sarcasm dataset (For training the model)
+* ML frameworks: SKlearn, Tensor flow, Pandas, NLTK/Stanford NER  
+* Visualization: Tableau
+* Web application: ReactJS
+* Cloud/Infra Platform: AWS EC2, docker, MongoDB
 * To be determined
 
 ###### Original Professor Feedback :- If you can bring NER to pin point people, product or processes for sarcasm detection then it will be useful. Provide actionable insights based on NER so for ex. If you discover 50% sarcasm in the headlines / tweets about new samsung fold phone then samsung can learn a lot with further insight you provide on the article using NLP
