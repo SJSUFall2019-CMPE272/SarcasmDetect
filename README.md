@@ -3,6 +3,7 @@
 > - npm install
 > - npm start
 > - Press Ctrl+C to exit the localhost app
+
 > cd service
 > - source bin/activate
 > - FLASK_APP=app.py flask run
