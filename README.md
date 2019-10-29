@@ -1,3 +1,15 @@
+# Project Instructions
+> cd sarcasm
+> - npm install
+> - npm start
+> - Press Ctrl+C to exit the localhost app
+> cd service
+> - source bin/activate
+> - FLASK_APP=app.py flask run
+> - Press Ctrl+C to exit the localhost app
+> - deactivate (to deactivate the virtualenv)
+
+
 # Project Name: SarcasmDetect
 Description: Based on sarcastic (The Onion) and non-sarcastic headlines (HuffPost), the system would help in sarcastic headline awareness and detection. We are diving into sarcastic commentary to see if we can predict sarcasm in a headline.
 
