@@ -1,15 +1,15 @@
 # Project Instructions
-> cd sarcasm
+* Run below commands in their respective directories.
+#### cd sarcasm
 > - npm install
 > - npm start
 > - Press Ctrl+C to exit the localhost app
 
-> cd service
+#### cd service
 > - source bin/activate
 > - FLASK_APP=app.py flask run
 > - Press Ctrl+C to exit the localhost app
 > - deactivate (to deactivate the virtualenv)
-
 
 # Project Name: SarcasmDetect
 Description: Based on sarcastic (The Onion) and non-sarcastic headlines (HuffPost), the system would help in sarcastic headline awareness and detection. We are diving into sarcastic commentary to see if we can predict sarcasm in a headline.
@@ -35,5 +35,16 @@ But there is a missing link. Sarcasm Detection for business use case is that lin
 * Web application: ReactJS
 * Cloud/Infra Platform: AWS EC2, docker, MongoDB
 * To be determined
+
+# Design Thinking
+## Personas
+* Product manager: A product manager's responsibilities include making judgements based on market sentiment.
+* Sales team member: A sales team member can find correlation between sarcastic sentiment with product performance in a market.
+* Marketing team person: A marketing team member can use sarcasm detection to decide market campaign to counter negative sarcasm.
+    
+## Hill Statements
+* A product manager can generate a dashboard of user sarcasm sentiment around the company's product in a region to show other stakeholders and take necessary actions to address the sentiment.
+* A sales team member can use SarcasmDetection to know which regions under/over performed and why.
+* A marketing team member can use SarcasmDetection to adjust ads/outreach campaigns for a product in a region.
 
 ###### Original Professor Feedback :- If you can bring NER to pin point people, product or processes for sarcasm detection then it will be useful. Provide actionable insights based on NER so for ex. If you discover 50% sarcasm in the headlines / tweets about new samsung fold phone then samsung can learn a lot with further insight you provide on the article using NLP
