@@ -3,11 +3,14 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  //height: 20vmin;
+  background-color: #000000;
+  min-height: 30vh;
 }
 
+
 .App-header {
-  background-color: #282c34;
+  background-color: #000000;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,6 +20,56 @@
   color: white;
 }
 
+.App-main {
+  background-color: #000000;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-main-about {
+  background-color: #000000;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-main-product {
+  background-color: #000000;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-main-login {
+  background-color: #000000;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+
+
 .App-link {
   color: #09d3ac;
 }
+
+/* .App-header{
+  color: 09d3ac;
+} */
