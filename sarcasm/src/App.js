@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import {Button, Jumbotron } from 'reactstrap';
+//import logo from './svg/YUKI.svg';
+import logo_black from './svg/YUKI_Black.svg';
+import TopBar from './topbar.js';
+
+//import { withRouter } from 'react-router-dom';
+
 import './App.css';
 
-function App() {
+function App(props) {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TopBar />
+      <div className= "App-header jumbotron-fluid">
+        <Jumbotron>
+          <h1><img src={logo_black} className="App-logo-black" alt="logo" /></h1>
+          <p className="lead">Yuki provides product, sales, and marketing teams an overview of sarcastic social media sentiment surrounding their products, businesses, and key company personnel.</p>
+          <hr className="my-2"/>
+          <p className = "landing-explain"> Product owners can generate a dashboard of user sarcasm sentiment around the company's product in a region to show other stakeholders and take necessary actions to address the sentiment. </p>
+          <p className = "landing-explain"> Marketing teams can use Yuki to adjust ads/outreach campaigns for a product in a region. </p>
+          <p className="lead">
+            <Button color="primary" href="/login">Sign Up!</Button>
+          </p>
+        </Jumbotron>
+      </div>{' '}
+
     </div>
   );
 }
