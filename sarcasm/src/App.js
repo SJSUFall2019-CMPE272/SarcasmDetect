@@ -1,75 +1,30 @@
 import React, { useState } from 'react';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
-import logo from './svg/YUKI.svg';
-import About from './svg/About.svg';
-import LogIn from './svg/Login.svg';
-import Product from './svg/Product.svg';
+import {Button, Jumbotron } from 'reactstrap';
+//import logo from './svg/YUKI.svg';
+import logo_black from './svg/YUKI_Black.svg';
+import TopBar from './topbar.js';
+
+//import { withRouter } from 'react-router-dom';
+
 import './App.css';
 
 function App(props) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => setIsOpen(!isOpen);
 
   return (
     <div className="App">
-      <header>
-        <div className="App-main-about">
-              <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-              <img src={About} className="App-main-about" alt="logo" />
-              </a>
-        </div>
-        <div className="App-main-product">
-              <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-              <img src={Product} className="App-main-product" alt="logo" />
-              </a>
-        </div>
-        <div className="App-main-login">
-              <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-              <img src={LogIn} className="App-main-login" alt="logo" />
-              </a>
-        </div>
-      </header>
-      <div className="App-header">
-              <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-              <img src={logo} className="App-logo" alt="logo" />
-              </a>
-              <p> </p>
-              <h2>Yuki provides an overall view of the sarcasm context for products, businesses, personalities, and regions.</h2>
-              <h4>Sample case studies:</h4>
-              
-      </div>
+      <TopBar />
+      <div className= "App-header jumbotron-fluid">
+        <Jumbotron>
+          <h1><img src={logo_black} className="App-logo-black" alt="logo" /></h1>
+          <p className="lead">Yuki provides product, sales, and marketing teams an overview of sarcastic social media sentiment surrounding their products, businesses, and key company personnel.</p>
+          <hr className="my-2"/>
+          <p className = "landing-explain"> Product owners can generate a dashboard of user sarcasm sentiment around the company's product in a region to show other stakeholders and take necessary actions to address the sentiment. </p>
+          <p className = "landing-explain"> Marketing teams can use Yuki to adjust ads/outreach campaigns for a product in a region. </p>
+          <p className="lead">
+            <Button color="primary" href="/login">Sign Up!</Button>
+          </p>
+        </Jumbotron>
+      </div>{' '}
 
     </div>
   );
