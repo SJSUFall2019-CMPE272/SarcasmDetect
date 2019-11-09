@@ -15,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //import { Provider } from 'react-redux';
 //import rootReducer from './reducers/rootReducer';
 
+
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 //const store = createStore(rootReducer);
@@ -30,6 +31,7 @@ class YukiRoutes extends React.Component {
         <Route exact path='/about' component={About} />
         <Route exact path='/console' component={Console} />
         <Route exact path='/dashboard' component={Dashboard} />
+        
       </Switch>
     </Router>
     )
