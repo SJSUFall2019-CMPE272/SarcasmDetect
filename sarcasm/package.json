@@ -16,6 +16,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "serve": "^11.2.0",
+    "tableau-api": "^2.2.3",
     "tableau-react": "^1.2.1"
   },
   "scripts": {
