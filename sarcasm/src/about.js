@@ -4,6 +4,8 @@ import TopBar from './topbar.js';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
+import './about.css';
+
 import Pranav from './svg/Pranav.jpeg';
 import Kalyani from './svg/Kalyani.jpeg';
 import Mukesh from './svg/Mukesh.jpeg';
@@ -54,8 +56,8 @@ const Profile = (props) => {
       {people.map((peop, index) =>
         <div>
           <Card>
-            <CardImg top width="100%" src={peop.image} alt="Card image cap" />
-            <CardBody>
+            <img width="50%" className="profileImg" src={peop.image}/>
+            <CardBody className="profileCardInternal">
               <CardTitle key={peop.name + "-" + index} >{peop.name}</CardTitle>
               <CardSubtitle>{peop.subtitle}</CardSubtitle>
               <CardText>{peop.text}</CardText>
