@@ -5,7 +5,7 @@ import ConsoleTopBar from './consoleTopBar.js';
 import { Alert, Col, Row, Form, Fade, FormGroup, Label, Input } from 'reactstrap';
 
 const Info = (props) => {
-    const [fadeIn, setFadeIn] = useState(true);
+    const [fadeIn, setFadeIn] = useState(false);
 
     const toggle = () => setFadeIn(!fadeIn);
 
@@ -20,36 +20,49 @@ const Info = (props) => {
     );
 }
 
+//class Console extends React.Component{
+const Console = () => {
 
-class Console extends React.Component{
+  const [trends, setTrend] = useState('');
 
-  render(){
     return(
         <div>
           <ConsoleTopBar/>
           <div className="console-entry">
-             <Form className="console-form">
-                <FormGroup>
-                  {/*<Label for="exampleAddress">Address</Label>*/}
+             <Form className="console-form"> {/*method="POST"*/}
+                {/*<FormGroup>
+                  <Label for="exampleAddress">Address</Label>
                   <Input type="text" placeholder="Which Twitter trend do you want to analyze?"/>
-                </FormGroup>
+                </FormGroup>*/}
                 <FormGroup>
                   {/*<Label for="exampleAddress">Address</Label>*/}
-                  <Input type="text" placeholder="What would you like Yuki to analyze?"/>
+                  <Input type="text" value={trends} placeholder="What would you like Yuki to analyze?" onChange={e => setTrend(e.target.value)}/>
 
                 </FormGroup>
+
+                <div className="analyze">
+                {' '}
+                <Button color="success" type="submit" href="/dashboard" onClick={async ()  => {
+                  const sending = {trends};
+                  const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                      'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(trends)
+                  })
+                  if(response.ok){
+                    console.log("worked");
+                  }
+                }}
+                >Analyze!</Button> {/*/dashboard*/}
+                </div>
+
              </Form>
              <Info />
-
-             <div className="analyze">
-             {' '}<Button color="success" href="/dashboard">Analyze!</Button>
-             </div>
-
           </div>
         </div>
     )
-  }
-
 }
 
-export default Console
+export default Console;

@@ -18,11 +18,11 @@ function DashboardTopBar(props) {
     <div className="App-console-bar">
       <header>
         <div className = "dashboard-header-buttons">
-            <div className = "dashboard-bar">
-                <h2>Yuki Analysis Report Dashboard</h2>
+            <div className = "dashboard-bar" href="/">
+                <h2 href='/'>Yuki Analysis Report Dashboard</h2>
             </div>
             <div className = "dashboard-bar-logout">
-                <a href='/'> <img src={LogoutButton} alt="logo"/> </a>
+                <a href='/login'onClick={() => firebase.auth().signOut()}> <img src={LogoutButton}/> </a>
             </div>
         </div>
       </header>{' '}

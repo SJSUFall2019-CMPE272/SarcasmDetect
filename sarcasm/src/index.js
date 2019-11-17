@@ -5,7 +5,7 @@ import './index.css';
 import Home from './App.js';
 import LogInAuth from './login.js';
 import About from './about.js'
-import Console from './console.js';
+import Console from './console.js'
 import Dashboard from './dashboard.js';
 
 import * as serviceWorker from './serviceWorker';
@@ -31,7 +31,6 @@ class YukiRoutes extends React.Component {
         <Route exact path='/about' component={About} />
         <Route exact path='/console' component={Console} />
         <Route exact path='/dashboard' component={Dashboard} />
-        
       </Switch>
     </Router>
     )
@@ -42,7 +41,6 @@ ReactDOM.render(
 
   //<Provider store={store}>
   <YukiRoutes />,
-
   //</Provider>,
   document.getElementById('root')
 

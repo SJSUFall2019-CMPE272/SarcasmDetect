@@ -3,14 +3,10 @@ import {Button} from 'reactstrap';
 import TopBar from './topbar.js';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import './firebaseauth.js';
 
 // const LogIn = (props) => {
 
-
-firebase.initializeApp({
-  apiKey: "AIzaSyDFjlTD97k-lLCR_nVNITQ0sxnYSH5Kokw",
-  authDomain: "yukifirebaseauth.firebaseapp.com"
-})
 
 class LogInAuth extends React.Component {
 

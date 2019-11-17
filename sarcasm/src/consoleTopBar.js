@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import './App.css';
 
 //import AboutButton from './svg/About.svg';
 //import About from './about.js';
@@ -9,10 +10,13 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 //import { withRouter } from 'react-router-dom';
 
-import './App.css';
+//function ConsoleTopBar(props) {
 
-function ConsoleTopBar(props) {
+//const ConsoleTopBar = () => {
 
+class ConsoleTopBar extends React.Component {
+
+  render(){
   return (
     <div className="App-console-bar">
       <header>
@@ -42,6 +46,7 @@ function ConsoleTopBar(props) {
       </header>{' '}
     </div>
   );
+  }
 }
 
 export default ConsoleTopBar;
