@@ -18,7 +18,6 @@ class TwitterClient(object):
 
         # keys and tokens from the Twitter Dev Console
 
-
         # attempt authentication
         try:
             # create OAuthHandler object
@@ -36,7 +35,15 @@ class TwitterClient(object):
         Utility function to clean tweet text by removing links, special characters
         using simple regex statements.
         '''
-        return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t]) |(\w+:\/\/\S+)", " ", tweet).split())
+
+        emoji_pattern = re.compile("["
+        u"\U0001F600-\U0001F64F"  # emoticons
+        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+        u"\U0001F680-\U0001F6FF"  # transport & map symbols
+        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                           "]+", flags=re.UNICODE)
+
+        return emoji_pattern.sub(r'', (' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t]) |(\w+:\/\/\S+)", " ", tweet).split())))
 
 
     def processTweet(self,tweet):
@@ -67,32 +74,39 @@ class TwitterClient(object):
 
         try:
             # call twitter api to fetch tweets
-            fetched_tweets = self.api.search(q = query, count = 2000,lang = "en",tweet_mode="extended")
+            fetched_tweets = self.api.search(q = query, count = 100, lang = "en", tweet_mode="extended")
             t = TwitterClient()
             # parsing tweets one by one
             for tweet in fetched_tweets:
                 # empty dictionary to store required params of a tweet
                 parsed_tweet = {}
-               
-                parsed_tweet['text'] = t.clean_tweet(tweet.full_text)
-                #parsed_tweet['description'] = tweet.user.description
-                # saving sentiment of tweet
-                #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
-                parsed_tweet['location'] = tweet.user.location
-                parsed_tweet['retweet_count'] = tweet.retweet_count
-                parsed_tweet['favorite_count'] = tweet.favorite_count
-                #parsed_tweet['created_at'] = tweet.created_at
-                parsed_tweet['time_zone'] = tweet.user.time_zone
-                #parsed_tweet['hashtags'] = tweet.user.hashtags
 
-                # appending parsed tweet to tweets list
-                #if tweet.retweeted == False:
                 if tweet.retweet_count > 10:
-                    # if tweet has retweets, ensure that it is appended only once
+
+                    if re.match(r"RT", tweet.full_text):
+                        parsed_tweet['text'] = t.clean_tweet(tweet.retweeted_status.full_text)
+                    else:
+                        parsed_tweet['text'] = t.clean_tweet(tweet.full_text)
+                    #parsed_tweet['description'] = tweet.user.description
+                    # saving sentiment of tweet
+                    #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
+                    parsed_tweet['location'] = tweet.user.location
+
+                    parsed_tweet['retweet_count'] = tweet.retweet_count
+
+                    parsed_tweet['favorite_count'] = tweet.favorite_count
+                    #parsed_tweet['created_at'] = tweet.created_at
+                    parsed_tweet['time_zone'] = tweet.user.time_zone
+                    #parsed_tweet['hashtags'] = tweet.user.hashtags
+
+                    # appending parsed tweet to tweets list
+                    #if tweet.retweeted == False:
+                    #if tweet.retweet_count > 0:
+                        # if tweet has retweets, ensure that it is appended only once
                     if parsed_tweet not in tweets:
                         tweets.append(parsed_tweet)
-                else:
-                    tweets.append(parsed_tweet)
+                    else:
+                        tweets.append(parsed_tweet)
 
             # return parsed tweets
             return tweets
