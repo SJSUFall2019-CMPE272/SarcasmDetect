@@ -67,15 +67,14 @@ class TwitterClient(object):
 
         try:
             # call twitter api to fetch tweets
-            fetched_tweets = self.api.search(q = query, count = 10,lang = "en")
+            fetched_tweets = self.api.search(q = query, count = 2000,lang = "en",tweet_mode="extended")
             t = TwitterClient()
             # parsing tweets one by one
             for tweet in fetched_tweets:
                 # empty dictionary to store required params of a tweet
                 parsed_tweet = {}
-
-                # saving text of tweet
-                parsed_tweet['text'] = t.processTweet(tweet.text)
+               
+                parsed_tweet['text'] = t.clean_tweet(tweet.full_text)
                 #parsed_tweet['description'] = tweet.user.description
                 # saving sentiment of tweet
                 #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
