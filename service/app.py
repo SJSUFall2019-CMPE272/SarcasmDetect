@@ -5,18 +5,18 @@ import re
 import tweepy
 from tweepy import OAuthHandler
 from textblob import TextBlob
-app = Flask(__name__)
-class TwitterClient(object):
 
+app = Flask(__name__)
+app.config.from_object('config')
+
+class TwitterClient(object):
 
     def __init__(self):
 
-        consumer_key = ''
-        consumer_secret = ''
-        access_token = ''
-        access_token_secret = ''
-
-        # keys and tokens from the Twitter Dev Console
+        consumer_key = app.config['CONSUMER_KEY']
+        consumer_secret = app.config['CONSUMER_SECRET']
+        access_token = app.config['ACCESS_TOKEN']
+        access_token_secret = app.config['ACCESS_TOKEN_SECRET']
 
         # attempt authentication
         try:
