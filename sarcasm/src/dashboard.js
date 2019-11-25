@@ -45,7 +45,8 @@ class YukiReport extends Component {
 
 
   initViz() {
-    const vizUrl = 'https://public.tableau.com/views/Demo1_15733466801170/Demo1?:display_count=y&:origin=viz_share_link';
+    const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/testsql2/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes';
+    //const vizUrl = 'https://public.tableau.com/views/Demo1_15733466801170/Demo1?:display_count=y&:origin=viz_share_link';
     const vizContainer = this.vizContainer;
     let viz = new window.tableau.Viz(vizContainer, vizUrl)
   }

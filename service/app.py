@@ -71,6 +71,7 @@ class TwitterClient(object):
         '''
         # empty list to store parsed tweets
         tweets = []
+        tweetset= set()
 
         try:
             # call twitter api to fetch tweets
@@ -81,7 +82,7 @@ class TwitterClient(object):
                 # empty dictionary to store required params of a tweet
                 parsed_tweet = {}
 
-                if tweet.retweet_count > 10:
+                if tweet.retweet_count > 0:
 
                     if re.match(r"RT", tweet.full_text):
                         parsed_tweet['text'] = t.clean_tweet(tweet.retweeted_status.full_text)
@@ -103,11 +104,13 @@ class TwitterClient(object):
                     #if tweet.retweeted == False:
                     #if tweet.retweet_count > 0:
                         # if tweet has retweets, ensure that it is appended only once
-                    if parsed_tweet not in tweets:
+                    # if parsed_tweet not in tweets:
+                    #     tweets.append(parsed_tweet)
+                    # else:
+                    #     tweets.append(parsed_tweet)
+                    if parsed_tweet.get('text') not in tweetset :
                         tweets.append(parsed_tweet)
-                    else:
-                        tweets.append(parsed_tweet)
-
+                        tweetset.add(parsed_tweet.get('text'))
             # return parsed tweets
             return tweets
 
@@ -115,7 +118,9 @@ class TwitterClient(object):
             # print error (if any)
             print("Error : " + str(e))
 
-#@app.route("/", methods=[ 'POST'])
+@app.route("/")
+def hello():
+    return "Go to :3000"
 
 
 @app.route("/analyze", methods=['POST'])
