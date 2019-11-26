@@ -43,9 +43,13 @@ class YukiReport extends Component {
   //
   //   }
 
+  // <script type='text/javascript' src='https://10ay.online.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1000px; height: 827px;'><object class='tableauViz' width='1000' height='827' style='display:none;'><param name='host_url' value='https%3A%2F%2F10ay.online.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='&#47;t&#47;yukisarcasmdetect' /><param name='name' value='Demo2&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /></object></div>
 
   initViz() {
-    const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/testsql2/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes';
+    const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/Demo2/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes';
+    //const vizUrl = 'https://10ay.online.tableau.com/javascripts/api/viz_v1.js';
+    //const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/result/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes'
+    //const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/testsql2/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes';
     //const vizUrl = 'https://public.tableau.com/views/Demo1_15733466801170/Demo1?:display_count=y&:origin=viz_share_link';
     const vizContainer = this.vizContainer;
     let viz = new window.tableau.Viz(vizContainer, vizUrl)
@@ -53,6 +57,17 @@ class YukiReport extends Component {
 
   render(){
     return(
+      // <div class='tableauPlaceholder' style='width: 1000px; height: 827px;'>
+      //   <object class='tableauViz' width='1000' height='827' style='display:none;'>
+      //     <param name='host_url' value='https%3A%2F%2F10ay.online.tableau.com%2F' />
+      //     <param name='embed_code_version' value='3' />
+      //     <param name='site_root' value='&#47;t&#47;yukisarcasmdetect' />
+      //     <param name='name' value='Demo2&#47;Dashboard1' />
+      //     <param name='tabs' value='no' />
+      //     <param name='toolbar' value='yes' />
+      //     <param name='showAppBanner' value='false' />
+      //   </object>
+      // </div>
       <div ref={(div) => { this.vizContainer = div }}>
       </div>
     )
