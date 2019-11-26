@@ -5,18 +5,18 @@ import re
 import tweepy
 from tweepy import OAuthHandler
 from textblob import TextBlob
-app = Flask(__name__)
-class TwitterClient(object):
 
+app = Flask(__name__)
+app.config.from_object('config')
+
+class TwitterClient(object):
 
     def __init__(self):
 
-        consumer_key = ''
-        consumer_secret = ''
-        access_token = ''
-        access_token_secret = ''
-
-        # keys and tokens from the Twitter Dev Console
+        consumer_key = app.config['CONSUMER_KEY']
+        consumer_secret = app.config['CONSUMER_SECRET']
+        access_token = app.config['ACCESS_TOKEN']
+        access_token_secret = app.config['ACCESS_TOKEN_SECRET']
 
         # attempt authentication
         try:
@@ -71,6 +71,7 @@ class TwitterClient(object):
         '''
         # empty list to store parsed tweets
         tweets = []
+        tweetset= set()
 
         try:
             # call twitter api to fetch tweets
@@ -81,7 +82,7 @@ class TwitterClient(object):
                 # empty dictionary to store required params of a tweet
                 parsed_tweet = {}
 
-                if tweet.retweet_count > 10:
+                if tweet.retweet_count > 0:
 
                     if re.match(r"RT", tweet.full_text):
                         parsed_tweet['text'] = t.clean_tweet(tweet.retweeted_status.full_text)
@@ -103,11 +104,13 @@ class TwitterClient(object):
                     #if tweet.retweeted == False:
                     #if tweet.retweet_count > 0:
                         # if tweet has retweets, ensure that it is appended only once
-                    if parsed_tweet not in tweets:
+                    # if parsed_tweet not in tweets:
+                    #     tweets.append(parsed_tweet)
+                    # else:
+                    #     tweets.append(parsed_tweet)
+                    if parsed_tweet.get('text') not in tweetset :
                         tweets.append(parsed_tweet)
-                    else:
-                        tweets.append(parsed_tweet)
-
+                        tweetset.add(parsed_tweet.get('text'))
             # return parsed tweets
             return tweets
 
@@ -115,7 +118,9 @@ class TwitterClient(object):
             # print error (if any)
             print("Error : " + str(e))
 
-#@app.route("/", methods=[ 'POST'])
+@app.route("/")
+def hello():
+    return "Go to :3000"
 
 
 @app.route("/analyze", methods=['POST'])
