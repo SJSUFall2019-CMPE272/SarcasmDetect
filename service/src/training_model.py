@@ -34,7 +34,7 @@ df['headline'] = df['headline'].apply((lambda x: re.sub('[^a-zA-z0-9\s]','',x)))
 #training model
 for idx,row in df.iterrows():
     row[0] = row[0].replace('rt',' ')
-    
+
 max_fatures = 2000
 tokenizer = Tokenizer(num_words=max_fatures, split=' ')
 tokenizer.fit_on_texts(df['headline'].values)
@@ -64,15 +64,15 @@ print("score: %.2f" % (score))
 print("acc: %.2f" % (accu))
 pos_cnt, neg_cnt, pos_correct, neg_correct = 0, 0, 0, 0
 for x in range(len(X_validate)):
-    
+
     result = model.predict(X_validate[x].reshape(1,X_test.shape[1]),batch_size=1,verbose = 2)[0]
-   
+
     if np.argmax(result) == np.argmax(Y_validate[x]):
         if np.argmax(Y_validate[x]) == 0:
             neg_correct += 1
         else:
             pos_correct += 1
-       
+
     if np.argmax(Y_validate[x]) == 0:
         neg_cnt += 1
     else:
@@ -98,4 +98,3 @@ print("Non-Sarcasm_acc", neg_correct/neg_cnt*100, "%")
 from keras.models import load_model
 
 model.save('my_model.h5')  # creates a HDF5 file 'my_model.h5'
-
