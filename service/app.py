@@ -30,11 +30,17 @@ from keras.layers import Dense, Embedding, LSTM, SpatialDropout1D
 from sklearn.model_selection import train_test_split
 from keras.utils.np_utils import to_categorical
 from keras.models import load_model
+import mysql.connector
 import os
 import json
 
 model_path='model/sarcasm_detect'
 h5_file_path='model/sd_h5_file'
+host_name="cmpe272.ccmlabqieyyi.us-east-1.rds.amazonaws.com"
+port_number="3306"
+user_name="cmpe272"
+password="cmpe2722"
+database="cmpe272"
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -154,7 +160,12 @@ def hello():
 
 async def processDataNow():
     print("inside processDataNow")
-
+    mydb = mysql.connector.connect(host=host_name,user=user_name,passwd=password,database=database)
+    create_table_statement="create table if not exists result_table ( data TEXT ,location TEXT , retweet_count int , favorite_count int ,time_zone TEXT , is_sarcastic int);"
+    mycursor = mydb.cursor()
+    mycursor.execute(create_table_statement)
+    truncate_table_statement="truncate table result_tablePy;"
+    mycursor.execute(truncate_table_statement)
     model = load_model('model/my_model.h5')
     print("model loaded")
     print(model)
@@ -190,7 +201,11 @@ async def processDataNow():
         elif (np.argmax(sentiment) == 1):
             i['is_sarcastic']=1
             print('non-sarcastic')
+        insert_sql="INSERT INTO result_table (data , location ,retweet_count, favorite_count, time_zone, is_sarcastic) VALUES (%s, %s, %s, %s, %s, %s)"
+        values =(i['text'],i['location'],i['retweet_count'],i['favorite_count'],i['time_zone'],i['is_sarcastic'])
+        mycursor.execute(insert_sql,values)
 
+    mydb.commit()
     with open(result_file_path, 'w') as outfile:
         json.dump(store_list, outfile)
 
