@@ -24,6 +24,7 @@ from keras.utils.np_utils import to_categorical
 import os
 import re
 import json
+import mysql.connector
 model_path='../model/sarcasm_detect'
 h5_file_path='../model/sd_h5_file'
 #file = open(model_path, 'r')
@@ -44,6 +45,20 @@ result_file_path='../data/result_data/result.json'
 input_file = open (input_file_path)
 json_array = json.load(input_file)
 store_list = []
+import mysql.connector
+host_name="cmpe272.ccmlabqieyyi.us-east-1.rds.amazonaws.com"
+port_number="3306"
+user_name="cmpe272"
+password="cmpe2722"
+database="cmpe272"
+mydb = mysql.connector.connect(host=host_name,user=user_name,passwd=password,database=database)
+create_table_statement="create table if not exists result_table ( data TEXT ,location TEXT , retweet_count int , favorite_count int ,time_zone TEXT , is_sarcastic int);"
+mycursor = mydb.cursor()
+mycursor.execute(create_table_statement)
+truncate_table_statement="truncate table result_tablePy;"
+mycursor.execute(truncate_table_statement)
+
+
 for item in json_array:
     store_details = {"text":None, "location":None, "retweet_count":None, "favorite_count":None, "time_zone":None,  "is_sarcastic":None}
     store_details['text'] = item['text']
@@ -69,6 +84,12 @@ for i in store_list:
     elif (np.argmax(sentiment) == 1):
         i['is_sarcastic']=1
         print('non-sarcastic')
+    insert_sql="INSERT INTO result_table (data , location ,retweet_count, favorite_count, time_zone, is_sarcastic) VALUES (%s, %s, %s, %s, %s, %s)"
+    values =(i['text'],i['location'],i['retweet_count'],i['favorite_count'],i['time_zone'],i['is_sarcastic'])
+    #values=("test","test",1,1,"test",1)
+    mycursor.execute(insert_sql,values)
 
-with open(result_file_path, 'w') as outfile:
-    json.dump(store_list, outfile)
+#with open(result_file_path, 'w') as outfile:
+#    json.dump(store_list, outfile)
+
+mydb.commit()

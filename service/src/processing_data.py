@@ -14,7 +14,7 @@ h5_file_path='../model/sd_h5_file'
 
 #load model
 from keras.models import load_model
-model = load_model('my_model.h5')
+model = load_model('../model/my_model.h5')
 print(model)
 #Process the input file
 input_file_path='../data/input_data/data.json'
