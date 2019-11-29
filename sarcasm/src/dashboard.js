@@ -7,8 +7,35 @@ import tableau from 'tableau-api';
 class YukiReport extends Component {
 
   componentDidMount() {
-    this.initViz()
-  }
+    this.initViz();
+    //   const response = fetch('https://10ay.online.tableau.com/api/3.6/auth/signin', {
+    //   method: 'POST',
+    //   mode: 'no-cors',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: {
+    //     "credentials": {
+    //       "name": "Pranav Patil",
+    //       "password": "RanjanIsOk272",
+    //       "site": {
+    //         "contentUrl": "yukisarcasmdetect"
+    //       },
+    //       "token": "4T_7nFnLQGK_WdIWhKhTtQ|yyKDYB4iU2lnW5FbBhpOg8aEckXab00x"
+    //     }
+    //   }
+    //   }).then(() => {
+    //
+    //   })
+    //
+    // if(response.ok){
+    //   console.log("Tableau Sign In");
+    // }else {
+    //   console.log("NOPE");
+    // }
+
+
+}
 
   // initTableau() {
   //       const vizUrl =
@@ -69,7 +96,34 @@ class YukiReport extends Component {
       //     <param name='showAppBanner' value='false' />
       //   </object>
       // </div>
-      <div ref={(div) => { this.vizContainer = div }}>
+      // <div ref={(div) => { this.vizContainer = div }}>
+      // </div>
+      <div>
+
+        <div ref={(div) => { this.vizContainer = div }}>
+        </div>
+        {/*
+        <div onLoad={async ()  => {
+          const response = await fetch('https://10ay.online.tableau.com/api/3.6/auth/signin', {
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body: {
+              "credentials": {
+                "name": "pranav.patil@sjsu.edu",
+                "password": "RanjanIsOk272",
+                "site": {
+                  "contentUrl": "yukisarcasmdetect"
+                }
+              }
+            }
+          })
+          if(response.ok){
+            console.log("Tableau Login");
+          }
+        }}>
+        </div>*/}
       </div>
     )
   }

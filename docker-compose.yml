@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  yukisarcasmdetect:
+    image: 'yukisarcasmdetect:sarcasm'
+    build:
+      context: .
+      dockerfile: sarcasm/Dockerfile
+    volumes:
+      - '.:/sarcasm'
+      - '/sarcasm/node_modules'
+      - '/sarcasm/package.json'
+    ports:
+      - '3000:3000'
+    restart: on-failure
+    command: 'npm start'
+  flask:
+    image: 'flask:latest'
+    build:
+      context: .
+      dockerfile: service/Dockerfile
+    volumes:
+      - '.:/service'
+      - '/service/lib'
+      - '/sarcasm/bin'
+    ports:
+      - '5000:5000'
+    restart: on-failure
+    command: 'python app.py'
