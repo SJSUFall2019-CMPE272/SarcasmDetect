@@ -95,24 +95,25 @@ class TwitterClient(object):
         #end
 
 
-    def get_tweets(self, query, count = 10):
+        def get_tweets(self, query, count = 10):
         '''
         Main function to fetch tweets and parse them.
         '''
         # empty list to store parsed tweets
         tweets = []
-        tweetset= set()
+        tweetset =set()
 
         try:
             # call twitter api to fetch tweets
-            fetched_tweets = self.api.search(q = query, count = 100, lang = "en", tweet_mode="extended")
+            fetched_tweets1 = self.api.search(q = query, count = 100, lang = "en", tweet_mode="extended", result_type="popular")
+            fetched_tweets2 = self.api.search(q = query, count = 100, lang = "en", tweet_mode="extended")
             t = TwitterClient()
             # parsing tweets one by one
-            for tweet in fetched_tweets:
+            for tweet in fetched_tweets1:
                 # empty dictionary to store required params of a tweet
                 parsed_tweet = {}
 
-                if tweet.retweet_count > 0:
+                if tweet.retweet_count > 1:
 
                     if re.match(r"RT", tweet.full_text):
                         parsed_tweet['text'] = t.clean_tweet(tweet.retweeted_status.full_text)
@@ -122,6 +123,10 @@ class TwitterClient(object):
                     # saving sentiment of tweet
                     #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
                     parsed_tweet['location'] = tweet.user.location
+                    
+                    create_date=tweet.created_at
+                    
+                    parsed_tweet['created_at'] = (create_date.strftime("%x"))
 
                     parsed_tweet['retweet_count'] = tweet.retweet_count
 
@@ -134,20 +139,57 @@ class TwitterClient(object):
                     #if tweet.retweeted == False:
                     #if tweet.retweet_count > 0:
                         # if tweet has retweets, ensure that it is appended only once
-                    # if parsed_tweet not in tweets:
-                    #     tweets.append(parsed_tweet)
-                    # else:
-                    #     tweets.append(parsed_tweet)
+                    
                     if parsed_tweet.get('text') not in tweetset :
                         tweets.append(parsed_tweet)
-                        tweetset.add(parsed_tweet.get('text'))
+                        tweetset.add(parsed_tweet.get('text'))              
+
+
+            for tweet in fetched_tweets2:
+                # empty dictionary to store required params of a tweet
+                parsed_tweet = {}
+
+                if tweet.retweet_count > 10:
+
+                    if re.match(r"RT", tweet.full_text):
+                        parsed_tweet['text'] = t.clean_tweet(tweet.retweeted_status.full_text)
+                    else:
+                        parsed_tweet['text'] = t.clean_tweet(tweet.full_text)
+                    #parsed_tweet['description'] = tweet.user.description
+                    # saving sentiment of tweet
+                    #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
+                    parsed_tweet['location'] = tweet.user.location
+                    
+                    create_date=tweet.created_at
+                    
+                    parsed_tweet['created_at'] = (create_date.strftime("%x"))
+
+                    parsed_tweet['retweet_count'] = tweet.retweet_count
+
+                    parsed_tweet['favorite_count'] = tweet.favorite_count
+                    #parsed_tweet['created_at'] = tweet.created_at
+                    parsed_tweet['time_zone'] = tweet.user.time_zone
+                    #parsed_tweet['hashtags'] = tweet.user.hashtags
+
+                    # appending parsed tweet to tweets list
+                    #if tweet.retweeted == False:
+                    #if tweet.retweet_count > 0:
+                        # if tweet has retweets, ensure that it is appended only once
+                    
+                    if parsed_tweet.get('text') not in tweetset :
+                        tweets.append(parsed_tweet)
+                        tweetset.add(parsed_tweet.get('text'))              
+                                              
+
+                             
+
             # return parsed tweets
             return tweets
 
         except tweepy.TweepError as e:
             # print error (if any)
             print("Error : " + str(e))
-
+            
 @app.route("/")
 def hello():
     return "Go to :3000"
