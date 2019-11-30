@@ -74,7 +74,8 @@ class YukiReport extends Component {
 
   initViz() {
     //const vizUrl = 'https://10ay.online.tableau.com/javascripts/api/viz_v1.js/yukisarcasmdetect/views/Demo2/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes';
-    const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/Demo2/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes';
+    //const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/Demo2/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes';
+    const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/RDSsample1/Dashboard2?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes'; 
     //const vizUrl = 'https://10ay.online.tableau.com/javascripts/api/viz_v1.js';
     //const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/result/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes'
     //const vizUrl = 'https://10ay.online.tableau.com/t/yukisarcasmdetect/views/testsql2/Dashboard1?:showAppBanner=true&:display_count=n&:showVizHome=n&:origin=viz_share_link?:refresh=yes';
