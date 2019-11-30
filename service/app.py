@@ -30,20 +30,20 @@ from keras.layers import Dense, Embedding, LSTM, SpatialDropout1D
 from sklearn.model_selection import train_test_split
 from keras.utils.np_utils import to_categorical
 from keras.models import load_model
+
 import mysql.connector
 import os
 import json
 
-model_path='model/sarcasm_detect'
-h5_file_path='model/sd_h5_file'
-host_name="cmpe272.ccmlabqieyyi.us-east-1.rds.amazonaws.com"
-port_number="3306"
-user_name="cmpe272"
-password="cmpe2722"
-database="cmpe272"
-
 app = Flask(__name__)
 app.config.from_object('config')
+
+# host_name = "cmpe272.ccmlabqieyyi.us-east-1.rds.amazonaws.com"
+# port_number = "3306"
+# user_name = "cmpe272"
+# password = "cmpe2722"
+# database = "cmpe272"
+
 
 class TwitterClient(object):
 
@@ -53,6 +53,12 @@ class TwitterClient(object):
         consumer_secret = app.config['CONSUMER_SECRET']
         access_token = app.config['ACCESS_TOKEN']
         access_token_secret = app.config['ACCESS_TOKEN_SECRET']
+
+        model_path='model/sarcasm_detect'
+        h5_file_path='model/sd_h5_file'
+
+
+
 
         # attempt authentication
         try:
@@ -101,18 +107,18 @@ class TwitterClient(object):
         #end
 
 
-        def get_tweets(self, query, count = 10):
-        '''
-        Main function to fetch tweets and parse them.
-        '''
+    def get_tweets(self, query, count = 10):
+
+        # Main function to fetch tweets and parse them.
+
         # empty list to store parsed tweets
         tweets = []
         tweetset =set()
 
         try:
             # call twitter api to fetch tweets
-            fetched_tweets1 = self.api.search(q = query, count = 100, lang = "en", tweet_mode="extended", result_type="popular")
-            fetched_tweets2 = self.api.search(q = query, count = 100, lang = "en", tweet_mode="extended")
+            fetched_tweets1 = self.api.search(q = query, count = 49, lang = "en", tweet_mode="extended", result_type="popular")
+            fetched_tweets2 = self.api.search(q = query, count = 49, lang = "en", tweet_mode="extended", until="2019-11-29")
             t = TwitterClient()
             # parsing tweets one by one
             for tweet in fetched_tweets1:
@@ -129,9 +135,9 @@ class TwitterClient(object):
                     # saving sentiment of tweet
                     #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
                     parsed_tweet['location'] = tweet.user.location
-                    
+
                     create_date=tweet.created_at
-                    
+
                     parsed_tweet['created_at'] = (create_date.strftime("%x"))
 
                     parsed_tweet['retweet_count'] = tweet.retweet_count
@@ -145,10 +151,10 @@ class TwitterClient(object):
                     #if tweet.retweeted == False:
                     #if tweet.retweet_count > 0:
                         # if tweet has retweets, ensure that it is appended only once
-                    
+
                     if parsed_tweet.get('text') not in tweetset :
                         tweets.append(parsed_tweet)
-                        tweetset.add(parsed_tweet.get('text'))              
+                        tweetset.add(parsed_tweet.get('text'))
 
 
             for tweet in fetched_tweets2:
@@ -165,9 +171,9 @@ class TwitterClient(object):
                     # saving sentiment of tweet
                     #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
                     parsed_tweet['location'] = tweet.user.location
-                    
+
                     create_date=tweet.created_at
-                    
+
                     parsed_tweet['created_at'] = (create_date.strftime("%x"))
 
                     parsed_tweet['retweet_count'] = tweet.retweet_count
@@ -181,13 +187,10 @@ class TwitterClient(object):
                     #if tweet.retweeted == False:
                     #if tweet.retweet_count > 0:
                         # if tweet has retweets, ensure that it is appended only once
-                    
+
                     if parsed_tweet.get('text') not in tweetset :
                         tweets.append(parsed_tweet)
-                        tweetset.add(parsed_tweet.get('text'))              
-                                              
-
-                             
+                        tweetset.add(parsed_tweet.get('text'))
 
             # return parsed tweets
             return tweets
@@ -195,62 +198,69 @@ class TwitterClient(object):
         except tweepy.TweepError as e:
             # print error (if any)
             print("Error : " + str(e))
-            
+
+    def processDataNow(self):
+        print("inside processDataNow")
+        mydb = mysql.connector.connect(host="cmpe272.ccmlabqieyyi.us-east-1.rds.amazonaws.com",user="cmpe272",passwd="cmpe2722",database="cmpe272")
+        print("mydb is connected")
+        create_table_statement="create table if not exists result_table ( data TEXT ,location TEXT , retweet_count int , favorite_count int ,time_zone TEXT , is_sarcastic int);"
+        mycursor = mydb.cursor()
+        print("cursor created")
+        mycursor.execute(create_table_statement)
+        truncate_table_statement="truncate table result_tablePy;"
+        mycursor.execute(truncate_table_statement)
+        print("table truncated")
+        #print(model)
+        model = load_model("model/my_model.h5")
+        print("model loaded")
+        #Process the input file
+        input_file_path='data/input_data/data.json'
+        result_file_path='data/result_data/result.json'
+        with open(input_file_path) as json_file:
+            json_array = json.load(json_file)
+        #input_file = json.open(input_file_path)
+        #json_array = json.load(input_file)
+        store_list = []
+        for item in json_array:
+            store_details = {"text":None, "location":None, "retweet_count":None, "favorite_count":None, "time_zone":None,  "is_sarcastic":None}
+            store_details['text'] = item['text']
+            store_details['location'] = item['location']
+            store_details['retweet_count'] = item['retweet_count']
+            store_details['favorite_count'] = item['favorite_count']
+            store_details['time_zone'] = item['time_zone']
+            store_list.append(store_details)
+
+        #print(store_list)
+        for i in store_list:
+            headline=[i['text']]
+            tokenizer = Tokenizer(num_words=2000, split=' ')
+            tokenizer.fit_on_texts(headline)
+            #headline = tokenizer.fit_on_texts(headline)
+            headline = tokenizer.texts_to_sequences(headline)
+            headline = pad_sequences(headline, maxlen=29, dtype='int32', value=0)
+            sentiment = model.predict(headline,batch_size=1,verbose = 2)[0]
+            print(sentiment)
+            if(np.argmax(sentiment) == 0):
+                i['is_sarcastic']=0
+                print('sarcastic')
+            elif (np.argmax(sentiment) == 1):
+                i['is_sarcastic']=1
+                print('non-sarcastic')
+            insert_sql="INSERT INTO result_table (data , location ,retweet_count, favorite_count, time_zone, is_sarcastic) VALUES (%s, %s, %s, %s, %s, %s)"
+            values =(i['text'],i['location'],i['retweet_count'],i['favorite_count'],i['time_zone'],i['is_sarcastic'])
+            mycursor.execute(insert_sql,values)
+            print("funciton done")
+
+        with open(result_file_path, 'w') as outfile:
+            json.dump(store_list, outfile)
+        print("done with result file updated")
+        mydb.commit()
+        print("data committed in mysql")
+
+
 @app.route("/")
 def hello():
     return "Go to :3000"
-
-async def processDataNow():
-    print("inside processDataNow")
-    mydb = mysql.connector.connect(host=host_name,user=user_name,passwd=password,database=database)
-    create_table_statement="create table if not exists result_table ( data TEXT ,location TEXT , retweet_count int , favorite_count int ,time_zone TEXT , is_sarcastic int);"
-    mycursor = mydb.cursor()
-    mycursor.execute(create_table_statement)
-    truncate_table_statement="truncate table result_tablePy;"
-    mycursor.execute(truncate_table_statement)
-    model = load_model('model/my_model.h5')
-    print("model loaded")
-    print(model)
-    print("model printed")
-    #Process the input file
-    input_file_path='data/input_data/data.json'
-    result_file_path='data/result_data/result.json'
-    input_file = open (input_file_path)
-    json_array = json.load(input_file)
-    store_list = []
-    for item in json_array:
-        store_details = {"text":None, "location":None, "retweet_count":None, "favorite_count":None, "time_zone":None,  "is_sarcastic":None}
-        store_details['text'] = item['text']
-        store_details['location'] = item['location']
-        store_details['retweet_count'] = item['retweet_count']
-        store_details['favorite_count'] = item['favorite_count']
-        store_details['time_zone'] = item['time_zone']
-        store_list.append(store_details)
-
-    #print(store_list)
-    for i in store_list:
-        headline=[i['text']]
-        tokenizer = Tokenizer(num_words=2000, split=' ')
-        tokenizer.fit_on_texts(headline)
-        #headline = tokenizer.fit_on_texts(headline)
-        headline = tokenizer.texts_to_sequences(headline)
-        headline = pad_sequences(headline, maxlen=29, dtype='int32', value=0)
-        sentiment = model.predict(headline,batch_size=1,verbose = 2)[0]
-        print(sentiment)
-        if(np.argmax(sentiment) == 0):
-            i['is_sarcastic']=0
-            print('sarcastic')
-        elif (np.argmax(sentiment) == 1):
-            i['is_sarcastic']=1
-            print('non-sarcastic')
-        insert_sql="INSERT INTO result_table (data , location ,retweet_count, favorite_count, time_zone, is_sarcastic) VALUES (%s, %s, %s, %s, %s, %s)"
-        values =(i['text'],i['location'],i['retweet_count'],i['favorite_count'],i['time_zone'],i['is_sarcastic'])
-        mycursor.execute(insert_sql,values)
-
-    mydb.commit()
-    with open(result_file_path, 'w') as outfile:
-        json.dump(store_list, outfile)
-
 
 @app.route("/analyze", methods=['POST'])
 def getSarcasmData():
@@ -269,9 +279,10 @@ def getSarcasmData():
         json.dump(tweets, f, ensure_ascii=False, indent=4)
 
     print("running process now")
-    processDataNow()
 
-    return "Analyzing the trend now!"
+    t.processDataNow()
+
+    return "done"
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -89,7 +89,7 @@ for i in store_list:
     #values=("test","test",1,1,"test",1)
     mycursor.execute(insert_sql,values)
 
-#with open(result_file_path, 'w') as outfile:
-#    json.dump(store_list, outfile)
+with open(result_file_path, 'w') as outfile:
+   json.dump(store_list, outfile)
 
 mydb.commit()
