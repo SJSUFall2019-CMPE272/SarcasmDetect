@@ -97,4 +97,4 @@ print("Non-Sarcasm_acc", neg_correct/neg_cnt*100, "%")
 
 from keras.models import load_model
 
-model.save('my_model.h5')  # creates a HDF5 file 'my_model.h5'
+model.save('../model/my_model.h5')  # creates a HDF5 file 'my_model.h5'
