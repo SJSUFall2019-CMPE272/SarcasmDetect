@@ -22,7 +22,7 @@ class ConsoleTopBar extends React.Component {
       <header>
         <div className = "header-buttons">
               <div className = "console-bar-welcome">
-                    <h3>Welcome, Pranav</h3>
+                    <h3>Yuki Sarcasm Detect</h3>
               </div>
 
 
