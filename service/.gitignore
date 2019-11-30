@@ -111,3 +111,7 @@ include/
 ../.DS_Store
 .DS_Store
 /.DS_Store
+
+data/input_data/data.json
+data/result_data/result.json
+
