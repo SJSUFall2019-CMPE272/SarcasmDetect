@@ -132,9 +132,9 @@ class TwitterClient(object):
                     # saving sentiment of tweet
                     #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
                     parsed_tweet['location'] = tweet.user.location
-                    
+
                     create_date=tweet.created_at
-                    
+
                     parsed_tweet['created_at'] = (create_date.strftime("%x"))
 
                     parsed_tweet['retweet_count'] = tweet.retweet_count
@@ -148,10 +148,10 @@ class TwitterClient(object):
                     #if tweet.retweeted == False:
                     #if tweet.retweet_count > 0:
                         # if tweet has retweets, ensure that it is appended only once
-                    
+
                     if parsed_tweet.get('text') not in tweetset :
                         tweets.append(parsed_tweet)
-                        tweetset.add(parsed_tweet.get('text'))              
+                        tweetset.add(parsed_tweet.get('text'))
 
 
             for tweet in fetched_tweets2:
@@ -168,9 +168,9 @@ class TwitterClient(object):
                     # saving sentiment of tweet
                     #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
                     parsed_tweet['location'] = tweet.user.location
-                    
+
                     create_date=tweet.created_at
-                    
+
                     parsed_tweet['created_at'] = (create_date.strftime("%x"))
 
                     parsed_tweet['retweet_count'] = tweet.retweet_count
@@ -184,10 +184,10 @@ class TwitterClient(object):
                     #if tweet.retweeted == False:
                     #if tweet.retweet_count > 0:
                         # if tweet has retweets, ensure that it is appended only once
-                    
+
                     if parsed_tweet.get('text') not in tweetset :
                         tweets.append(parsed_tweet)
-                        tweetset.add(parsed_tweet.get('text'))              
+                        tweetset.add(parsed_tweet.get('text'))
 
             # return parsed tweets
             return tweets
@@ -199,7 +199,7 @@ class TwitterClient(object):
     def processDataNow(self):
         print("inside processDataNow")
         mydb = mysql.connector.connect(host="cmpe272.ccmlabqieyyi.us-east-1.rds.amazonaws.com", user="cmpe272", passwd="cmpe2722", database="cmpe272")
-        create_table_statement = "create table if not exists result_table ( data TEXT ,location TEXT , retweet_count int , favorite_count int ,time_zone TEXT , is_sarcastic int);"
+        create_table_statement = "create table if not exists result_table ( data TEXT ,location TEXT , retweet_count int , favorite_count int ,time_zone TEXT , is_sarcastic int, name TEXT, org TEXT, place TEXT);"
         mycursor = mydb.cursor()
         mycursor.execute(create_table_statement)
         truncate_table_statement = "truncate table result_table"
@@ -231,6 +231,9 @@ class TwitterClient(object):
 
         # print(store_list)
         for i in store_list:
+            name=''
+            group=''
+            place=''
             headline = [i['text']]
             tokenizer = Tokenizer(num_words=2000, split=' ')
             tokenizer.fit_on_texts(headline)
@@ -245,9 +248,21 @@ class TwitterClient(object):
             elif (np.argmax(sentiment) == 1):
                 i['is_sarcastic'] = 1
                 print('non-sarcastic')
-            insert_sql = "INSERT INTO result_table (data , location ,retweet_count, favorite_count, time_zone, is_sarcastic) VALUES (%s, %s, %s, %s, %s, %s)"
+
+            nerDict = {"name"}
+            import paralleldots
+            paralleldots.set_api_key("iNzaBLAI4u60Eu6SULcErgbTf8lFDAj8rJ6rAajgvOw")
+            nerDataJson = paralleldots.ner(i['text'])
+            nerStr = json.dumps(nerDataJson["entities"])
+            nerList = json.loads(nerStr)
+            print(nerList)
+            for data in nerList:
+                if (data["category"] == "group"): group = data["name"]
+                if (data["category"] == "name"): name = data["name"]
+                if (data["category"] == "place"): place = data["name"]
+            insert_sql = "INSERT INTO result_table (data , location ,retweet_count, favorite_count, time_zone, is_sarcastic , name, org, place) VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s)"
             values = (
-            i['text'], i['location'], i['retweet_count'], i['favorite_count'], i['time_zone'], i['is_sarcastic'])
+            i['text'], i['location'], i['retweet_count'], i['favorite_count'], i['time_zone'], i['is_sarcastic'], name,group, place )
             mycursor.execute(insert_sql, values)
 
         mydb.commit()
@@ -281,4 +296,3 @@ def getSarcasmData():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
-    
